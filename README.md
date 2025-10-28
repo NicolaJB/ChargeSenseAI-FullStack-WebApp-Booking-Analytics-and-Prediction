@@ -74,7 +74,7 @@ This indicates the backend is ready to receive uploaded Excel or CSV files at th
 
 ## Frontend Setup
 ```bash
-cd ../app
+cd chargesenseai-frontend
 npm install      # or yarn
 npm run dev      # or yarn dev
 ```
