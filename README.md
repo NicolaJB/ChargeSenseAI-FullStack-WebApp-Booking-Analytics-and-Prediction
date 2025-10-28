@@ -16,7 +16,6 @@ The dummy data provided is limited in scope and is only intended to demonstrate 
 
 - Upload Excel files (.xlsx or .xls) with student booking data
 - Calculate total charges using business rules (AM, Explorers 1–3, late fees, etc.)
-- Segment customers using K-Means clustering
 - Forecast weekly charges using simple linear regression
 - Display top 5 student spenders with predicted charges
 - Interactive charts and tables for:
