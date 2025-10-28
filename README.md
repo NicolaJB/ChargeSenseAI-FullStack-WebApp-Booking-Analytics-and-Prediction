@@ -2,6 +2,9 @@
 
 ChargeSenseAI is a full-stack web application for analysing and visualising school booking charges from Excel files. It provides interactive charts and tables for customer segments, weekly charges, predicted charges, and bus usage.
 
+⚠️ **Note:** All data in this repository is synthetic and anonymised for demonstration purposes. No real individuals’ data is included.  
+The dummy data provided is limited in scope and is only intended to demonstrate the app’s functionality; results may not reflect real-world usage or full-scale datasets.
+
 ## Tech Stack
 
 - **Frontend:** React + TypeScript + Next.js 14  
