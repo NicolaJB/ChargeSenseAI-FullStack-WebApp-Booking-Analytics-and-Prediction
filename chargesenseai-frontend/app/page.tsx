@@ -29,7 +29,7 @@ export default function HomePage() {
       });
     });
 
-    // Calculate total charges per day
+    // Step 1: Compute daily totals and day indices
     const dayMap: Record<string, number> = { Mon: 0, Tue: 1, Wed: 2, Thu: 3, Fri: 4 };
     const dailyTotals: { day: string; actual: number; index: number }[] = DAYS.map((day) => {
       const total = weekly
@@ -38,7 +38,7 @@ export default function HomePage() {
       return { day, actual: total, index: dayMap[day] };
     });
 
-    // Simple linear regression to predict charges per day
+    // Step 2: Linear regression on daily totals
     const n = dailyTotals.length;
     const sumX = dailyTotals.reduce((sum, d) => sum + d.index, 0);
     const sumY = dailyTotals.reduce((sum, d) => sum + d.actual, 0);
@@ -48,21 +48,25 @@ export default function HomePage() {
     const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
     const intercept = (sumY - slope * sumX) / n;
 
+    // Step 3: Weekly totals with predicted trend
     const weeklyWithPredicted = dailyTotals.map((d) => ({
       day: d.day,
       actual: d.actual,
       predicted: parseFloat((slope * d.index + intercept).toFixed(2)),
     }));
 
-    // Calculate predicted charge for each student based on linear regression
-    const studentData = segments.map((c) => ({
-      ...c,
-      predicted: parseFloat(
-        ((slope / n) * c.bookingCount + intercept / n).toFixed(2) // simple linear scaling
-      ),
+    // Step 4: Predict per-student weekly charges
+    // Use total bookings per student and average charge per booking
+    const totalCharges = weekly.reduce((sum, w) => sum + (w.actual ?? 0), 0);
+    const totalBookings = segments.reduce((sum, s) => sum + (s.bookingCount ?? 1), 0);
+    const avgChargePerBooking = totalBookings > 0 ? totalCharges / totalBookings : 0;
+
+    const studentData = segments.map((s) => ({
+      ...s,
+      predicted: parseFloat((avgChargePerBooking * (s.bookingCount ?? 1)).toFixed(2)),
     }));
 
-    // Update state
+    // Step 5: Update state
     setCustomerSegments(studentData || []);
     setWeeklyCharges(weeklyWithPredicted || []);
     setBusUsage(normalizedBus || []);
